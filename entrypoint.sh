@@ -1,10 +1,6 @@
 #!/bin/sh
 
-if [ -z "${FIREBASE_TOKEN}" ]; then
-    echo "FIREBASE_TOKEN is missing"
-    exit 1
-fi
+echo "${FIREBASE_SERVICE_ACCOUNT}" | base64 --decode > "$PROJECT_DIR"/serviceaccount.json
+export GOOGLE_APPLICATION_CREDENTIALS=PROJECT_DIR/serviceaccount.json
 
-firebase deploy \
-    --token ${FIREBASE_TOKEN} \
-    --only functions
+firebase deploy --only firestore:rules
